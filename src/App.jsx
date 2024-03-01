@@ -1,52 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Row, Col } from 'react-bootstrap';
+
+
 
 function App() {
   const [userId, setUserId] = useState(1);
-  const [user, setUser] = useState(null); // State to store user data
+  const [user, setUser] = useState(null);
+  const [bgColor, setBgColor] = useState('white');
 
   const apiCall = async () => {
     try {
       const response = await fetch(`https://dummyjson.com/users/${userId}`);
       const userData = await response.json();
       console.log(userData);
-      setUser(userData); // Set user data in state
+      setUser(userData);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
   };
 
   useEffect(() => {
-    apiCall(); // Call apiCall function on the first render (initial load)
-  }, [userId]); // Call apiCall whenever userId changes
+    apiCall(); 
+  }, [userId]); 
 
   const handleButtonClick = () => {
-    setUserId(prevUserId => prevUserId + 1); // Increment userId for demonstration
+    setUserId(prevUserId => prevUserId + 1); 
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    setBgColor(randomColor);
   };
 
   return (
     <>
       {user ? (
-        <div className='container '>
+        <div className='container  p-5'>
           <Card>
             <Card.Header>Random User On Refresh</Card.Header>
-            <Card.Body>
-            <img style={{ height: '100px', borderRadius: '50%' }} src={user.image} alt="User Image" />
-              <Card.Title>{user.firstName}</Card.Title>
-              <div>
+            <Card.Body style={{ backgroundColor: bgColor, padding: '20px' }} >
+              <div className='text-center'>
+                <img className='img-responsive center-block' style={{ height: '100px', borderRadius: '50%',  }} src={user.image} alt="User Image" />
+                <Card.Title>{user.firstName} {user.maidenName} {user.lastName}</Card.Title>
+                <p>{user.genter}</p>
                 <h2>User Details</h2>
-                <div>
-                  <p>First Name: {user.firstName} {user.maidenName} {user.lastName} </p>
-                  <p>Age: {user.age}</p>
-                  <p>address: {user.address.address}</p>
-
-                  {/* Display other user details as needed */}
-                </div>
               </div>
+                
+
+
+                <Row className='mt-5'>
+                  <Col className='text-center'>
+                    <p><b>Birth Date: </b>{user.birthDate}</p>
+                    <p><b>Age: </b>{user.age}</p>
+                    <p><b>Weight:</b>{user.weight}</p>
+                    <p><b>Height</b>:{user.height}</p>
+                  </Col>
+                  
+                  <Col className='text-center'>
+                    <p><b>address:</b> {user.address.address}</p>
+                    <p><b>Mobile Phone: </b>{user.phone}</p>
+                    <p><b>Company: </b>{user.company.name}</p>
+                    <p><b>job TitLe: </b>{user.company.title}</p>
+                    <p><b>Email: </b>{user.email}</p>
+
+                    </Col>
+                  
+                </Row>
+                 
+              
               <Card.Text>
-                With supporting text below as a natural lead-in to additional content.
+                
               </Card.Text>
-              <Button variant="primary" onClick={handleButtonClick}>Refresh</Button>
+              <Button className='text-center' variant="primary" onClick={handleButtonClick}>Refresh</Button>
             </Card.Body>
           </Card>
         </div>
