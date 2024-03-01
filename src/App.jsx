@@ -31,7 +31,7 @@ function App() {
           <Card>
             <Card.Header>Random User On Refresh</Card.Header>
             <Card.Body>
-              <img style={{ height: '100px', borderRadius: '50%' }} src="https://robohash.org/Sheldon.png?set=set4" alt="" />
+            <img style={{ height: '100px', borderRadius: '50%' }} src={user.image} alt="User Image" />
               <Card.Title>{user.firstName}</Card.Title>
               <div>
                 <h2>User Details</h2>
